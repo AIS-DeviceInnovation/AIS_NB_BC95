@@ -1,0 +1,14 @@
+{
+  "name": "AIS_NB_IoT",
+  "frameworks": "Arduino",
+  "keywords": "AIS, NB-IoT",
+  "description": "Arduino Library for AIS NB-IoT Arduino Shield",
+  "url": "http://www.ais.co.th",
+  "authors":
+  {
+    "name": "Advanced Info Service Plc./Device Innovation",
+    "maintainer": true
+  },
+  "version": "2.0.0"
+  "platforms": "*"
+}

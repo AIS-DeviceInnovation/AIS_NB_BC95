@@ -1,0 +1,34 @@
+#######################################
+# Syntax Coloring Map For AIS NB-IoT Library
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+AIS_NB_IoT	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+AIS_NB_IoT_RES	KEYWORD2
+setupDevice	KEYWORD2
+getDeviceIP	KEYWORD2
+UDP_callback	KEYWORD2
+UDPSend	KEYWORD2
+sendUDPmsgStr	KEYWORD2
+str2HexStr	KEYWORD2
+sendUDPmsg	KEYWORD2
+waitResponse	KEYWORD2
+pingIP KEYWORD2
+debug KEYWORD2
+
+#######################################
+# Instances (KEYWORD2)
+#######################################
+
+
+#######################################
+# Constants (LITERAL1)
+#######################################
