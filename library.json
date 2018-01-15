@@ -1,0 +1,14 @@
+{
+  "name": "AIS_NB_BC95",
+  "frameworks": "Arduino",
+  "keywords": "AIS, NB-IoT, BC95, Quectel",
+  "description": "Arduino Library for AIS NB-IoT Shield",
+  "url": "https://github.com/AIS-DeviceInnovation/AIS_NB_BC95",
+  "authors":
+  {
+    "name": "Advanced Info Service Plc./Device Innovation Team",
+    "maintainer": true
+  },
+  "version": "1.0.0"
+  "platforms": "*"
+}
