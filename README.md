@@ -28,7 +28,7 @@ AIS NB-IoT Library is designed for AIS NB-IoT Shield.
 		○ Value: ip_address, port, length, data, remaining_length
 
 ## Device Compatibility:
-## AIS NB-IoT Shield (Quectel BC95)
+### AIS NB-IoT Shield (Quectel BC95)
 AIS NB-IoT Shield is an extension board for Arduino UNO R3 compatible pinout. 
 
 ### Specifications:
