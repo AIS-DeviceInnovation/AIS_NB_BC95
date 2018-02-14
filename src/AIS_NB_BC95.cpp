@@ -1,9 +1,9 @@
 /*
-AIS_NB_BC95 v1.0.0 .
+AIS_NB_BC95 v1.0.1 
 Author: DEVI/AIS
-Create Date: 1 May 2017.
-Modified: 09 November 2017.
-Released for private use.
+Create Date: 1 May 2017
+Modified: 14 Feb 2018
+Released for private use
 */
 
 #include "AIS_NB_BC95.h"
