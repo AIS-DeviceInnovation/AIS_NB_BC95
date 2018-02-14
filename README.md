@@ -1,5 +1,5 @@
 # AIS NB-IoT Library
-AIS NB-IoT Library is designed for AIS NB-IoT Shield.
+AIS NB-IoT Library is designed for DEVIO NB-Shield I to connect with your own IoT Platform/ Server. 
 
 ## Function List:
 
