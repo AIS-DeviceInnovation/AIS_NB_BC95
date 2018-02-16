@@ -1,5 +1,6 @@
 # AIS NB-IoT Library
 AIS NB-IoT Library is designed for DEVIO NB-Shield I to connect with your own IoT Platform/ Server. 
+The library is using Software Serial for communication with Arduino board.
 
 ## Function List:
 
@@ -28,8 +29,8 @@ AIS NB-IoT Library is designed for DEVIO NB-Shield I to connect with your own Io
 		○ Value: ip_address, port, length, data, remaining_length
 
 ## Device Compatibility:
-### AIS NB-IoT Shield (Quectel BC95)
-AIS NB-IoT Shield is an extension board for Arduino UNO R3 compatible pinout. 
+### DEVIO NB-SHILD I (Quectel BC95)
+DEVIO NB-SHILD I is an extension board for Arduino UNO R3 compatible pinout. 
 
 ### Specifications:
 	Communication Module: Quectel BC95
@@ -43,12 +44,18 @@ AIS NB-IoT Shield is an extension board for Arduino UNO R3 compatible pinout.
 		○ CoAP
 	eSIM on-board
 	Serial Communication (UART)
+		Hardware Serial 
+		○ RX : PIN0
+		○ TX : PIN1
+		Software Serial
+		○ RX : PIN8
+		○ TX : PIN9
+
 
 # Getting Started
   1. Connect AIS NB-IoT Shield on Arduino Board
-  2. Download AIS NB-IoT Library from Github
-  3. Coding & Compile using Arduino Desktop IDE
+  2. Coding & Compile using Arduino Desktop IDE
 		- Install the Arduino board drivers
-		- Import AIS NB-IoT Library
-		- Open AIS NB-IoT Example
+		- Import AIS NB-IoT Library from Library Manager
+		- Open AIS NB-IoT Example and specify your server IP & Port
 		- Compile & Upload
