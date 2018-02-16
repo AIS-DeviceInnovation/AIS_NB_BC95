@@ -1,5 +1,5 @@
 /*
-AIS_NB_BC95 v1.0.2 
+AIS_NB_BC95 v1.0.3 
 Author: DEVI/AIS
 Create Date: 1 May 2017
 Modified: 14 Feb 2018
