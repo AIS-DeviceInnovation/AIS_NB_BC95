@@ -22,6 +22,8 @@ void setup()
   AISnb.setupDevice(serverPort);
 
   String ip1 = AISnb.getDeviceIP();  
+  delay(1000);
+  
   pingRESP pingR = AISnb.pingIP(serverIP);
   previousMillis = millis();
 
