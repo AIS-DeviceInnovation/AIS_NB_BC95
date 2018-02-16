@@ -29,9 +29,9 @@ The library is using Software Serial for communication with Arduino board.
 		○ Value: ip_address, port, length, data, remaining_length
 
 ## Device Compatibility:
-### DEVIO NB-SHILD I (Quectel BC95)
-DEVIO NB-SHILD I is an extension board for Arduino UNO R3 compatible pinout. 
-
+### DEVIO NB-SHIELD I (Quectel BC95)
+DEVIO NB-SHIELD I is an extension board for Arduino UNO R3 compatible pinout. 
+![DEVIO NB-SHIELD I] https://drive.google.com/open?id=12GZxO8LZRendpDoaVkUUIiW0W8bM0mIR
 ### Specifications:
 	Communication Module: Quectel BC95
 	Network Technology: LTE Cat. NB1 (NB-IoT)
@@ -53,7 +53,7 @@ DEVIO NB-SHILD I is an extension board for Arduino UNO R3 compatible pinout.
 
 
 # Getting Started
-  1. Connect AIS NB-IoT Shield on Arduino Board
+  1. Connect 'DEVIO NB-SHIELD I' on Arduino Board
   2. Coding & Compile using Arduino Desktop IDE
 		- Install the Arduino board drivers
 		- Import AIS NB-IoT Library from Library Manager
