@@ -1,5 +1,5 @@
 /*
-AIS_NB_BC95 v1.0.3 
+AIS_NB_BC95 v1.0.4 
 Author: DEVI/AIS
 Create Date: 1 May 2017
 Modified: 14 Feb 2018
@@ -37,7 +37,7 @@ void AIS_NB_BC95:: setupDevice(String serverPort)
 	myserial.begin(9600);
     _Serial = &myserial;
 
-	Serial.println(F("############ AIS_NB_BC95 Library by AIS/DEVI V1.0.3 ############"));
+	Serial.println(F("############ AIS_NB_BC95 Library by AIS/DEVI V1.0.4 ############"));
 	reset();
 	String imei = getIMEI();
 	if (debug) Serial.print(F("# Module IMEI-->  "));
