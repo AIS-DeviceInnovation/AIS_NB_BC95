@@ -31,7 +31,7 @@ The library is using Software Serial for communication with Arduino board.
 ## Device Compatibility:
 ### DEVIO NB-SHIELD I
 `DEVIO NB-SHIELD I` is an extension board for Arduino UNO R3 compatible pinout. 
-[![DEVIO_NB-_SHIELD-_I.png](https://s9.postimg.org/pfipsqxkf/DEVIO_NB-_SHIELD-_I.png)](https://postimg.org/image/cbd5g25ij/)
+[![DEVIO_NB-_SHIELD-_I_2.png](https://s9.postimg.org/t0elc7f1b/DEVIO_NB-_SHIELD-_I_2.png)](https://postimg.org/image/a82q8mimz/)
 ### Specifications:
 	Communication Module: Quectel BC95
 	Network Technology: LTE Cat. NB1 (NB-IoT)
