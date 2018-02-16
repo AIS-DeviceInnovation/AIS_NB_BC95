@@ -37,7 +37,7 @@ void AIS_NB_BC95:: setupDevice(String serverPort)
 	myserial.begin(9600);
     _Serial = &myserial;
 
-	Serial.println(F("############ AIS_NB_BC95 Library by AIS/DEVI V1.0.1 ############"));
+	Serial.println(F("############ AIS_NB_BC95 Library by AIS/DEVI V1.0.3 ############"));
 	reset();
 	String imei = getIMEI();
 	if (debug) Serial.print(F("# Module IMEI-->  "));
