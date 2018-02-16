@@ -9,6 +9,11 @@
     "name": "Advanced Info Service Plc./Device Innovation Team",
     "maintainer": true
   },
+  "repository":
+  {
+      "type": "git",
+      "url": "https://github.com/AIS-DeviceInnovation/AIS_NB_BC95.git"
+  }, 
   "version": "1.0.2",
   "platforms": "*"
 }
