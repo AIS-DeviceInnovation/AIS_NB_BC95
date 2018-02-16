@@ -50,6 +50,13 @@ The library is using Software Serial for communication with Arduino board.
 		Software Serial
 		○ RX : PIN8
 		○ TX : PIN9
+	Dimensions: 
+		o 54*74*29 mm (Width x Length x Height)(Excluded antenna)
+	Additional Feature:
+		o NB-IoT Module Reset Button
+		o Power Status LED
+	NB-IoT Module Certification
+		○ NBTC, CE, CCC, SRRC, NAL, GCF
 
 
 # Getting Started
