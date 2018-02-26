@@ -42,7 +42,6 @@ The library is using Software Serial for communication with Arduino board.
 	Protocol stack
 		○ UDP
 		○ CoAP
-	eSIM on-board
 	Serial Communication (UART)
 		Hardware Serial 
 		○ RX : PIN0
