@@ -1,5 +1,5 @@
 /*
-AIS_NB_BC95 v1.0.4 
+AIS_NB_BC95 v1.0.5
 Author: DEVI/AIS
 Create Date: 1 May 2017
 Modified: 14 Feb 2018
@@ -37,7 +37,7 @@ void AIS_NB_BC95:: setupDevice(String serverPort)
 	myserial.begin(9600);
     _Serial = &myserial;
 
-	Serial.println(F("############ AIS_NB_BC95 Library by AIS/DEVI V1.0.4 ############"));
+	Serial.println(F("############ AIS_NB_BC95 Library by AIS/DEVI V1.0.5 ############"));
 	reset();
 	String imei = getIMEI();
 	if (debug) Serial.print(F("# Module IMEI-->  "));
@@ -48,7 +48,9 @@ void AIS_NB_BC95:: setupDevice(String serverPort)
 	String imsi = getIMSI();
 	if (debug) Serial.print(F("# IMSI SIM-->  "));
 	if (debug) Serial.println(imsi);
+	
 	attachNB(serverPort);
+	createUDPSocket(serverPort);
 }
 
 void AIS_NB_BC95:: reset()
@@ -93,7 +95,6 @@ bool AIS_NB_BC95:: waitReady()
 
 bool AIS_NB_BC95:: setPhoneFunction(unsigned char mode)
 {
-	//delay(1000);
 	_Serial->print(F("AT+CFUN="));
 	_Serial->println(mode);
 	AIS_NB_BC95_RES res = wait_rx_bc(1000,F("OK"));
@@ -277,7 +278,11 @@ bool AIS_NB_BC95:: attachNB(String serverPort)
 				setAutoConnectOn();
 				cgatt(1);
 				delay(3000);
-				if(getNBConnect()){ ret=true; break;}
+				if(getNBConnect())
+					{ 				  
+					  ret=true;
+					  break;
+					}
 				Serial.print(F("."));
 		}
 	} else
