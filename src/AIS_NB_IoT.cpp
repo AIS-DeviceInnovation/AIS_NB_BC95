@@ -288,7 +288,7 @@ bool AIS_NB_IoT:: attachNB(String serverPort)
 	    createUDPSocket(serverPort);
 	}
 	else {
-			if (debug) Serial.print(F("> Disconnected"));
+			if (debug) Serial.print(F("> Disconnected. Or your area signal is not coveraged."));
 		 }
 	if (debug) Serial.println(F("\n################################################################"));
 	return ret;
