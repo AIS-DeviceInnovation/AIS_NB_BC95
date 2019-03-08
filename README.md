@@ -65,3 +65,7 @@ For `DEVIO NB-SHIELD I` Pinout, please go to "www.ais.co.th/aiap" in the "IoT De
 		- Import AIS NB-IoT Library from Library Manager
 		- Open AIS NB-IoT Example and specify your server IP & Port
 		- Compile & Upload
+
+สนใจสั่งซื้อ DEVIO NB-Shield I ได้ที่ AIS online store (https://store.ais.co.th/th/accessories/other/devio-nb-shield-i.html)
+
+สอบถามข้อมูลเพิ่มเติม ติดต่อ AIS IoT Alliance Program (www.ais.co.th/aiap) ที่หน้า Business Enquiry
