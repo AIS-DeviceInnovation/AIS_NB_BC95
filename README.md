@@ -46,11 +46,11 @@ For `DEVIO NB-SHIELD I` Pinout, please go to "www.ais.co.th/aiap" in the "IoT De
 		○ CoAP
 	Serial Communication (UART)
 		Hardware Serial 
-		○ RX : PIN0
-		○ TX : PIN1
+		○ RX : GPIO0
+		○ TX : GPIO1
 		Software Serial
-		○ RX : PIN8
-		○ TX : PIN9
+		○ RX : GPIO8
+		○ TX : GPIO9
 	Dimensions: 
 		o 54*74*29 mm (Width x Length x Height)(Excluded antenna)
 	Additional Feature:
