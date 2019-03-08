@@ -2,6 +2,8 @@
 AIS NB-IoT Library is designed for `DEVIO NB-SHIELD I` to connect with your own IoT Platform/ Server. 
 The library is using Software Serial for communication with Arduino board.
 
+For MEGA, Please connect GPIO8 to GPIO48 and GPIO09 to GPIO46
+
 ## Function List:
 
 ### General Function:
