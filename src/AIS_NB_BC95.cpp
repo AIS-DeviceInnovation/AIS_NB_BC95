@@ -25,7 +25,9 @@ String sendStr;
 
 void event_null(char *data){}
 
+#if ATLSOFTSERIAL
 AltSoftSerial myserial;
+#endif
 
 AIS_NB_BC95::AIS_NB_BC95()
 {
@@ -34,20 +36,32 @@ AIS_NB_BC95::AIS_NB_BC95()
 
 void AIS_NB_BC95:: setupDevice(String serverPort)
 {
-	myserial.begin(9600);
-    _Serial = &myserial;
 
-	Serial.println(F("############ AIS_NB_BC95 Library by AIS/DEVI V1.0.5 ############"));
+	#if ATLSOFTSERIAL
+	  myserial.begin(9600);
+      _Serial = &myserial;
+	  _DebugSerial = &Serial;
+	#elif defined(ARDUINO_NUCLEO_L476RG) || defined(ARDUINO_NUCLEO_F411RE) || defined(ARDUINO_NUCLEO_F401RE)
+      Serial1.begin(9600);
+      _Serial = &Serial1;
+      _DebugSerial = &Serial;
+    #elif defined(ARDUINO_SAM_ZERO)
+      Serial5.begin(9600);
+      _Serial = &Serial5;
+      _DebugSerial = &SerialUSB;
+    #endif
+
+	_DebugSerial->println(F("############ AIS_NB_BC95 Library by AIS/DEVI V1.0.5 ############"));
 	reset();
 	String imei = getIMEI();
-	if (debug) Serial.print(F("# Module IMEI-->  "));
-	if (debug) Serial.println(imei);
+	if (debug) _DebugSerial->print(F("# Module IMEI-->  "));
+	if (debug) _DebugSerial->println(imei);
 	String fmver = getFirmwareVersion();
-	if (debug) Serial.print(F("# Firmware ver-->  "));
-	if (debug) Serial.println(fmver);
+	if (debug) _DebugSerial->print(F("# Firmware ver-->  "));
+	if (debug) _DebugSerial->println(fmver);
 	String imsi = getIMSI();
-	if (debug) Serial.print(F("# IMSI SIM-->  "));
-	if (debug) Serial.println(imsi);
+	if (debug) _DebugSerial->print(F("# IMSI SIM-->  "));
+	if (debug) _DebugSerial->println(imsi);
 	
 	attachNB(serverPort);
 	createUDPSocket(serverPort);
@@ -58,9 +72,9 @@ void AIS_NB_BC95:: reset()
 	rebootModule();
 	while (!setPhoneFunction(1))
 	{
-		Serial.print(F("."));
+		_DebugSerial->print(F("."));
 	}
-	Serial.println();
+	_DebugSerial->println();
 }
 
 void AIS_NB_BC95:: rebootModule()
@@ -70,10 +84,10 @@ void AIS_NB_BC95:: rebootModule()
 	_Serial->println(F("AT"));
 	AIS_NB_BC95_RES res = wait_rx_bc(500,F("OK"));
 	_Serial->println(F("AT+NRB"));
-	if (debug) Serial.print(F("# Reboot Module"));
+	if (debug) _DebugSerial->print(F("# Reboot Module"));
 	while (!waitReady());
 	{
-		if (debug) Serial.print(F("."));
+		if (debug) _DebugSerial->print(F("."));
 	}
     _Serial->flush();
 	delay(5000);
@@ -123,7 +137,7 @@ String AIS_NB_BC95:: getFirmwareVersion()
 	_Serial->println(F("AT+CGMR"));
 	AIS_NB_BC95_RES res = wait_rx_bc(1000,F("OK"));
 	String out = res.temp;
-    //if (debug){Serial.println(out);}
+    //if (debug){_DebugSerial->println(out);}
     out.replace(F("OK"),"");
 	out = out.substring(0,out.length());
 	//out = out.substring(10,28);
@@ -160,10 +174,10 @@ pingRESP AIS_NB_BC95:: pingIP(String IP)
 		pingr.addr = data.substring(index+1,index2);
 		pingr.ttl = data.substring(index2+1,index3);
 		pingr.rtt = data.substring(index3+1,data.length());
-		//Serial.println("# Ping Success");
-		if (debug) Serial.println("# Ping IP:"+pingr.addr + ",ttl= " + pingr.ttl + ",rtt= " + pingr.rtt);
+		//_DebugSerial->println("# Ping Success");
+		if (debug) _DebugSerial->println("# Ping IP:"+pingr.addr + ",ttl= " + pingr.ttl + ",rtt= " + pingr.rtt);
 
-	}else { if (debug) Serial.println("# Ping Failed");}
+	}else { if (debug) _DebugSerial->println("# Ping Failed");}
 	res = wait_rx_bc(500,F("OK"));
 	return pingr;
 }
@@ -179,7 +193,7 @@ String AIS_NB_BC95:: getDeviceIP()
 		int index = data.indexOf(F(":"));
 		int index2 = data.indexOf(F(","));
 		data = res.data.substring(index2+1,data.length());
-		if (debug) Serial.println("# Device IP: "+data);
+		if (debug) _DebugSerial->println("# Device IP: "+data);
 
 	}else {data = "";}
 	res = wait_rx_bc(500,F("OK"));
@@ -226,7 +240,7 @@ String AIS_NB_BC95:: getNetworkStatus()
 		{
 			out = F("Trying");
 		}
-	if (debug) Serial.println("# Get Network Status : " + out);
+	if (debug) _DebugSerial->println("# Get Network Status : " + out);
 
 	}
 	res = wait_rx_bc(1000,F("OK"));
@@ -260,7 +274,7 @@ String AIS_NB_BC95:: getAPN()
 		index = res.data.indexOf(F(","),index2+1);
 		index2 = res.data.indexOf(F(","),index+1);
 		out = data.substring(index+2,index2-1);
-		Serial.println("# Get APN: " + out);
+		_DebugSerial->println("# Get APN: " + out);
 	}
 	res = wait_rx_bc(500,F("OK"));
 	return(out);
@@ -271,7 +285,7 @@ bool AIS_NB_BC95:: attachNB(String serverPort)
 	bool ret=false;
 	if(!getNBConnect())
 	{
-		if (debug) Serial.print(F("# Connecting NB-IoT Network"));
+		if (debug) _DebugSerial->print(F("# Connecting NB-IoT Network"));
 		for(int i=1;i<60;i+=1)
 		{
 				setPhoneFunction(1);
@@ -283,7 +297,7 @@ bool AIS_NB_BC95:: attachNB(String serverPort)
 					  ret=true;
 					  break;
 					}
-				Serial.print(F("."));
+				_DebugSerial->print(F("."));
 		}
 	} else
 		{
@@ -292,30 +306,30 @@ bool AIS_NB_BC95:: attachNB(String serverPort)
 
 	if (ret)
 	{
-		if (debug) Serial.print(F("> Connected"));
+		if (debug) _DebugSerial->print(F("> Connected"));
 	    createUDPSocket(serverPort);
 	}
 	else {
-			if (debug) Serial.print(F("> Disconnected"));
+			if (debug) _DebugSerial->print(F("> Disconnected"));
 		 }
-	if (debug) Serial.println(F("\n################################################################"));
+	if (debug) _DebugSerial->println(F("\n################################################################"));
 	return ret;
 }
 bool AIS_NB_BC95:: detachNB()
 {
 	bool ret=false;
 	_Serial->flush();
-	if (debug) Serial.print(F("# Disconnecting NB-IoT Network"));
+	if (debug) _DebugSerial->print(F("# Disconnecting NB-IoT Network"));
 	cgatt(0);
 	delay(1000);
 	for(int i=1;i<60;i+=1)
 	{
-		Serial.print(F("."));
+		_DebugSerial->print(F("."));
 		if(!getNBConnect())
 		{ ret=true; break;}
 
 	}
-	if (debug) Serial.println(F("> Disconnected"));
+	if (debug) _DebugSerial->println(F("> Disconnected"));
 	return ret;
 }
 
@@ -370,7 +384,7 @@ signal AIS_NB_BC95:: getSignal()
 				sig.rssi = String(x);
 			}
 			sig.ber  = res.data.substring(index2+1);
-			if (debug) Serial.println("# Get CSQ Signal: csq= " + sig.csq + ", rssi= " + sig.rssi + ", ber= " +sig.ber);
+			if (debug) _DebugSerial->println("# Get CSQ Signal: csq= " + sig.csq + ", rssi= " + sig.rssi + ", ber= " +sig.ber);
 		}
 	}
 	res = wait_rx_bc(500,F("OK"));
@@ -395,49 +409,49 @@ UDPSend AIS_NB_BC95:: sendUDPmsg( String addressI,String port,unsigned int len,c
 	UDPSend ret;
     if(!attachNB(port))
     {
-		if (debug) Serial.println("# >Disconnected");
+		if (debug) _DebugSerial->println("# >Disconnected");
 		return ret;
     }
-	if (debug) Serial.println(F("\n################################################################"));
-	if (debug) Serial.print(F("# Sending Data IP="));
-	if (debug) Serial.print(addressI);
-	if (debug) Serial.print(F(" PORT="));
-	if (debug) Serial.print(port);
-	if (debug) Serial.println();
+	if (debug) _DebugSerial->println(F("\n################################################################"));
+	if (debug) _DebugSerial->print(F("# Sending Data IP="));
+	if (debug) _DebugSerial->print(addressI);
+	if (debug) _DebugSerial->print(F(" PORT="));
+	if (debug) _DebugSerial->print(port);
+	if (debug) _DebugSerial->println();
 
 	_Serial->print(F("AT+NSOST=0"));
-	//if (debug) Serial.print(F("AT+NSOST=0"));
+	//if (debug) _DebugSerial->print(F("AT+NSOST=0"));
 	_Serial->print(F(","));
-	//if (debug) Serial.print(",");
+	//if (debug) _DebugSerial->print(",");
 	_Serial->print(addressI);
-	//if (debug)Serial.print(addressI);
+	//if (debug)_DebugSerial->print(addressI);
 	_Serial->print(F(","));
-	//if (debug)Serial.print(",");
+	//if (debug)_DebugSerial->print(",");
 	_Serial->print(port);
-	//if (debug) Serial.print(port);
+	//if (debug) _DebugSerial->print(port);
 	_Serial->print(F(","));
-	//if (debug)Serial.print(",");
+	//if (debug)_DebugSerial->print(",");
 
 	if(send_mode == MODE_STRING_HEX)
 	{
 		_Serial->print(String(len/2));
-		//if (debug) Serial.print(String(len/2));
+		//if (debug) _DebugSerial->print(String(len/2));
 	}
 	else
 	{
 		_Serial->print(String(len));
-		//if (debug) Serial.print(String(len));
+		//if (debug) _DebugSerial->print(String(len));
 	}
 
 	_Serial->print(F(","));
 
-	if (debug) Serial.print(F("# Data="));
+	if (debug) _DebugSerial->print(F("# Data="));
 		if(send_mode == MODE_STRING_HEX)
 		{
 			for(int i=0;i<len;i++)
 			{
 				_Serial->print(data[i]);
-				if (debug) Serial.print(data[i]);
+				if (debug) _DebugSerial->print(data[i]);
 			}
 		}
 		if(send_mode == MODE_STRING)
@@ -446,7 +460,7 @@ UDPSend AIS_NB_BC95:: sendUDPmsg( String addressI,String port,unsigned int len,c
 		}
 
 	_Serial->println();
-	if (debug) Serial.println();
+	if (debug) _DebugSerial->println();
 
 	AIS_NB_BC95_RES res = wait_rx_bc(5000,F("OK"));
 	ret.status = false;
@@ -459,10 +473,10 @@ UDPSend AIS_NB_BC95:: sendUDPmsg( String addressI,String port,unsigned int len,c
 		int index2 = res.temp.indexOf(F("O"));
 		ret.socket = res.temp.substring(index-1,index).toInt();
 		ret.length = res.temp.substring(index+1,index2).toInt();
-		if (debug) Serial.println("# Send OK");
-	}else {if (debug) Serial.println("# Send ERROR");}
+		if (debug) _DebugSerial->println("# Send OK");
+	}else {if (debug) _DebugSerial->println("# Send ERROR");}
 
-	//Serial.println(F("\n###############################################"));
+	//_DebugSerial->println(F("\n###############################################"));
 
 	return(ret);
 }
@@ -475,7 +489,7 @@ UDPReceive AIS_NB_BC95:: waitResponse()
   if(en_rcv && (current-previous>=250) && !(_Serial->available()))
   {
       _Serial->println(F("AT+NSORF=0,100"));
-	  //Serial.println(F("AT+NSORF=0,100"));
+	  //_DebugSerial->println(F("AT+NSORF=0,100"));
       previous=current;
   }
 
@@ -495,16 +509,16 @@ UDPReceive AIS_NB_BC95:: waitResponse()
     {
       input+=data;
     }
-    //if(debug) Serial.println(input);
+    //if(debug) _DebugSerial->println(input);
   }
   if(end){
       if(input.indexOf(F("+NSONMI:"))!=-1)
       {
-          //if(debug) Serial.print(F("send_NSOMI: "));
-          //if(debug) Serial.println(input);
+          //if(debug) _DebugSerial->print(F("send_NSOMI: "));
+          //if(debug) _DebugSerial->println(input);
           if(input.indexOf(F("+NSONMI:"))!=-1)
           {
-            //if(debug) Serial.print(F("found NSONMI "));
+            //if(debug) _DebugSerial->print(F("found NSONMI "));
             _Serial->println(F("AT+NSORF=0,100"));
             input=F("");
             send_NSOMI=true;
@@ -513,8 +527,8 @@ UDPReceive AIS_NB_BC95:: waitResponse()
       }
       else
         {
-          //if(debug) Serial.print(F("get buffer: "));
-          //if(debug) Serial.println(input);
+          //if(debug) _DebugSerial->print(F("get buffer: "));
+          //if(debug) _DebugSerial->println(input);
 
           end=false;
 
@@ -630,7 +644,7 @@ void AIS_NB_BC95::printHEX(char *str)
 
       if(debug)
       {
-        Serial.print(out);
+        _DebugSerial->print(out);
       }
       
     }
@@ -682,20 +696,20 @@ char AIS_NB_BC95:: char_to_byte(char c)
 void AIS_NB_BC95:: receive_UDP(UDPReceive rx)
 {
   String dataStr;
-  Serial.println(F("################################################################"));
-  Serial.println(F("# Incoming Data"));
-  Serial.println("# IP--> " + rx.ip_address);
-  Serial.println("# Port--> " + String(rx.port));
-  Serial.println("# Length--> " + String(rx.length));
+  _DebugSerial->println(F("################################################################"));
+  _DebugSerial->println(F("# Incoming Data"));
+  _DebugSerial->println("# IP--> " + rx.ip_address);
+  _DebugSerial->println("# Port--> " + String(rx.port));
+  _DebugSerial->println("# Length--> " + String(rx.length));
   if(sendMode == MODE_STRING_HEX)
   {
-		Serial.println("# Data--> " + rx.data);
+		_DebugSerial->println("# Data--> " + rx.data);
   }
   else
   {
 		dataStr = toString(rx.data);
-		Serial.println("# Data--> " + dataStr);
+		_DebugSerial->println("# Data--> " + dataStr);
   }
-  Serial.println("# Remaining length--> " + String(rx.remaining_length));
-  Serial.println(F("################################################################"));
+  _DebugSerial->println("# Remaining length--> " + String(rx.remaining_length));
+  _DebugSerial->println(F("################################################################"));
 }
