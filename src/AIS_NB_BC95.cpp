@@ -49,6 +49,10 @@ void AIS_NB_BC95:: setupDevice(String serverPort)
       Serial5.begin(9600);
       _Serial = &Serial5;
       _DebugSerial = &SerialUSB;
+	#elif defined(ESP32)
+	  Serial2.begin(9600);
+      _Serial = &Serial2;
+      _DebugSerial = &Serial;
     #endif
 
 	_DebugSerial->println(F("############ AIS_NB_BC95 Library by AIS/DEVI V1.0.5 ############"));
