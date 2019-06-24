@@ -665,24 +665,27 @@ String AIS_NB_BC95:: toString(String dat)
   }
   return(str);
 }
-String AIS_NB_BC95:: str2HexStr(String strin)
+String AIS_NB_BC95:: str2HexStr(String inStr)
 {
-  int lenuse = strin.length();
-  char charBuf[lenuse*2-1];
-  char strBuf[lenuse*2-1];
-  String strout = "";
-  strin.toCharArray(charBuf,lenuse*2) ;
-  for (int i = 0; i < lenuse; i++)
-  {
-    sprintf(strBuf, "%02X", charBuf[i]);
-
-    if (String(strBuf) != F("00") )
-    {
-           strout += strBuf;
+	const char *data = inStr.c_str();
+    int len = inStr.length();
+	char tmp[len*2+1];
+    byte first;
+    byte second;
+    for (int i=0; i<len; i++) {
+           first = (data[i] >> 4) & 0x0f;
+           second = data[i] & 0x0f;
+           // base for converting single digit numbers to ASCII is 48
+           // base for 10-16 to become upper-case characters A-F is 65
+           // note: difference is 7
+           tmp[i*2] = first+48;
+           tmp[i*2+1] = second+48;
+           if (first > 9) tmp[i*2] += 7; 
+           if (second > 9) tmp[i*2+1] += 7;
     }
-  }
-
-  return strout;
+    tmp[len*2] = 0;
+	return String(tmp);
+  
 }
 
 char AIS_NB_BC95:: char_to_byte(char c)
