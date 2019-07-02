@@ -29,6 +29,12 @@ void event_null(char *data){}
 AltSoftSerial myserial;
 #endif
 
+#ifdef ESP32
+#define RXD2 26   // D2 
+#define TXD2 12   // D8
+#endif
+
+
 AIS_NB_BC95::AIS_NB_BC95()
 {
 	Event_debug =  event_null;
@@ -50,7 +56,7 @@ void AIS_NB_BC95:: setupDevice(String serverPort)
       _Serial = &Serial5;
       _DebugSerial = &SerialUSB;
 	#elif defined(ESP32)
-	  Serial2.begin(9600);
+	  Serial2.begin(9600, SERIAL_8N1, RXD2, TXD2);
       _Serial = &Serial2;
       _DebugSerial = &Serial;
     #endif
