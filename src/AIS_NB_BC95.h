@@ -1,7 +1,10 @@
 #ifndef AIS_NB_BC95_h
 #define AIS_NB_BC95_h
-
+#if defined(ARDUINO_AVR_UNO) || defined(ARDUINO_AVR_MEGA2560)
 #define ATLSOFTSERIAL 1
+#else
+#define ATLSOFTSERIAL 0
+#endif
 
 #include <Arduino.h>
 #include <Stream.h>
@@ -110,6 +113,7 @@ private:
 
 protected:
 	 Stream *_Serial;	
+	 Stream *_DebugSerial;
 };
 
 #endif
