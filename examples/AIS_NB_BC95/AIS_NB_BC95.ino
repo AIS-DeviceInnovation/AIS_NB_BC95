@@ -1,7 +1,5 @@
 #include "AIS_NB_BC95.h"
 
-String apnName = "devkit.nb";
-
 String serverIP = ""; // Your Server IP
 String serverPort = ""; // Your Server Port
 
